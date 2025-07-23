@@ -31,7 +31,7 @@ for host in node-0 node-1; do
     --kubeconfig=${host}.kubeconfig
   kubectl config use-context default \
     --kubeconfig=${host}.kubeconfig
-  echo '✅ Generating Kubernetes configuration files worker node ${host}'
+  echo "✅ Generating Kubernetes configuration files worker node ${host}"
 done
 
 echo '✅ Generate a kubeconfig file for the kube-proxy service'
@@ -113,7 +113,7 @@ kubectl config use-context default \
 echo '✅ Copy the kubelet and kube-proxy kubeconfig files to the node-0 and node-1 machines'
 
 for host in node-0 node-1; do
-  ssh root@${host} "mkdir -p /var/lib/{kube-proxy,kubelet}"
+  ssh root@${host} "mkdir -p /var/lib/kube-proxy /var/lib/kubelet"
   scp kube-proxy.kubeconfig \
     root@${host}:/var/lib/kube-proxy/kubeconfig \
   scp ${host}.kubeconfig \
