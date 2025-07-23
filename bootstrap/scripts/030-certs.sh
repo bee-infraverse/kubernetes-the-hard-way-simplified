@@ -11,7 +11,7 @@ strictMode
 
 cd ~/kubernetes-the-hard-way
 
-envsubst < ${GITROOT}/ca-template.conf > ca.conf
+envsubst < ${GITROOT}/bootstrap/ca-template.conf > ca.conf
 
 mkdir -p ~/kubernetes-the-hard-way/certs && cd ~/kubernetes-the-hard-way/certs
 

@@ -82,8 +82,6 @@ fi
 if ! command -v k9s &> /dev/null; then
   echo '✅ Install k9s.'
   curl -sS https://webinstall.dev/k9s | bash
-  export PATH="/home/$USER/.local/bin:$PATH"
-  echo 'PATH="/home/$USER/.local/bin:$PATH' >>~/.bashrc
 fi
 
 if alias k &>/dev/null; then
