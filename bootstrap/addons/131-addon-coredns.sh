@@ -12,14 +12,14 @@ strictMode
 cd ~/kubernetes-the-hard-way/configs
 cat >10-dns.conf <<EOF
 kind: KubeletConfiguration
-apiVersion: kubelet.config.k8s.io/v1
+apiVersion: kubelet.config.k8s.io/v1beta1
 clusterDNS:
   - 10.0.0.10
 clusterDomain: ${CLUSTER_DOMAIN}
 EOF
 cat >20-tuning.conf <<EOF
 kind: KubeletConfiguration
-apiVersion: kubelet.config.k8s.io/v1
+apiVersion: kubelet.config.k8s.io/v1beta1
 maxPods: 110
 EOF
 

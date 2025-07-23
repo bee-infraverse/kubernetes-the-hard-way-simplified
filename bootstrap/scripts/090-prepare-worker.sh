@@ -39,7 +39,7 @@ EOF
 
 cat >kubelet-config.yaml <<EOF
 kind: KubeletConfiguration
-apiVersion: kubelet.config.k8s.io/v1
+apiVersion: kubelet.config.k8s.io/v1beta
 address: "0.0.0.0"
 authentication:
   anonymous:
@@ -170,7 +170,6 @@ cd ~/kubernetes-the-hard-way
 for HOST in node-0 node-1; do
   scp \
     downloads/worker/* \
-    downloads/client/kubectl \
     configs/99-loopback.conf \
     configs/containerd-config.toml \
     configs/kube-proxy-config.yaml \
