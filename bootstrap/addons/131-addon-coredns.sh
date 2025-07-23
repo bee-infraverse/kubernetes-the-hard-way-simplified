@@ -25,6 +25,7 @@ EOF
 
 cd ~/kubernetes-the-hard-way
 for host in node-0 node-1; do
+  echo "✅ preparing worker node ${host} for use coreDNS"
   scp configs/10-dns.conf configs/20-tuning.conf \
     root@${host}:/var/lib/kubelet/config.d/
   ssh root@${host} "systemctl restart kubelet"

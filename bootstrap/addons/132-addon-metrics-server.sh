@@ -77,6 +77,9 @@ RestartSec=5
 WantedBy=multi-user.target
 EOF
 
+cd ~/kubernetes-the-hard-way
+
+echo 'Copying kube-apiserver-aggregator service file to the server machine'
 scp \
   certs/kubernetes-front-proxy-ca.key certs/kubernetes-front-proxy-ca.crt \
   certs/front-proxy-client.key certs/front-proxy-client.crt \
