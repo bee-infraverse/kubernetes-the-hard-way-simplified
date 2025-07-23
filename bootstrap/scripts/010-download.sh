@@ -84,6 +84,14 @@ if ! command -v k9s &> /dev/null; then
   curl -sS https://webinstall.dev/k9s | bash
 fi
 
+if ! command -v kubectl &> /dev/null; then
+  echo '✅ Install kubectl.'
+  sudo cp downloads/client/kubectl /usr/local/bin/
+  sudo chown root:root /usr/local/bin/kubectl
+else
+  echo 'kubectl is already installed, skipping installation.'
+fi
+
 if alias k &>/dev/null; then
   echo "alias 'k' is defined"
 else
@@ -92,4 +100,16 @@ else
   echo 'alias k=kubectl' >>~/.bashrc && echo 'complete -o default -F __start_kubectl k' >>~/.bashrc
 fi
 
-
+if kubectl krew list &>/dev/null; then
+  set -x; cd "$(mktemp -d)" &&
+  OS="$(uname | tr '[:upper:]' '[:lower:]')" &&
+  ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&
+  KREW="krew-${OS}_${ARCH}" &&
+  curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&
+  tar zxvf "${KREW}.tar.gz" &&
+  ./"${KREW}" install krew
+  echo 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"' >>~/.bashrc
+  echo '✅ krew is  installed.'
+else
+  echo 'krew is already installed, skipping installation.'
+fi
