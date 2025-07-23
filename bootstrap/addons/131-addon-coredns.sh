@@ -45,7 +45,8 @@ helm upgrade --install coredns coredns/coredns \
   --set service.clusterIP="10.0.0.10" \
   --set service.name="kube-dns" \
   --set replicaCount=2 \
-  --set k8sAppLabelOverride="kube-dns"
+  --set k8sAppLabelOverride="kube-dns" \
+  --wait
 
 kubectl wait --for=condition=available --timeout=60s deployment/coredns -n kube-system
 kubectl get pods -n kube-system -l k8s-app=kube-dns

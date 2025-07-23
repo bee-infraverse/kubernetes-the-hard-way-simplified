@@ -89,6 +89,14 @@ scp \
   root@server:/etc/systemd/system/kube-apiserver.service
 ssh root@server "systemctl daemon-reload && systemctl restart kube-apiserver"
 
+ssh root@server <<'EOF'
+  echo 'Waiting for kube-apiserver to start...'
+  until systemctl is-active kube-apiserver; do
+    sleep 1
+  done
+  echo 'kube-apiserver is running.'
+EOF
+
 echo "Deploy the Metrics Server"
 
 if ! helm repo list | grep -q '^metrics-server'; then
@@ -100,10 +108,11 @@ helm repo update
 
 helm upgrade --install metrics-server metrics-server/metrics-server \
   --namespace kube-system \
-  --set args='{--kubelet-insecure-tls,--kubelet-preferred-address-types=InternalIP}'
+  --set args='{--kubelet-insecure-tls,--kubelet-preferred-address-types=InternalIP}' \
+  --wait
 
 echo 'Waiting for Metrics Server to start...'
-kubectl wait --for=condition=available --timeout=60s deployment/metrics-server -n kube-system
+kubectl wait --for=condition=available --timeout=90s deployment/metrics-server -n kube-system
 
 kubectl top nodes
 kubectl top pods -A
