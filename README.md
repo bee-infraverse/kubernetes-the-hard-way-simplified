@@ -31,6 +31,26 @@ how we can keep learning the hard way, made a little easier.
     - Follow the instructions in the lab content.
 - Review the provided scripts to set up your flexbox playground 
 
+Navigate to jumpbox terminal and accessible
+
+```shell
+git clone https://github.com/bee-infraverse/kubernetes-the-hard-way-simplified.git
+cd ~/kubernetes-the-hard-way-simplified/bootstrap
+# check env.sh and overwrite versions
+./bootstrap.sh
+source ~/.bashrc
+# Install add ons
+# coredns, metrics-server, local-path-provisioner
+./addons.sh
+
+# check
+k get nodes
+k get pods -A
+k get sc
+k top nodes
+k top pods -A
+```
+
 ## Other cool Kubernetes The Hard Way resources
 
 - [Kubernetes The Hard Way - Learn how to build K8s from scratch! by Peter Rossbach](https://labs.iximiuz.com/courses/kubernetes-the-hard-way-simplified-09885dc6)
