@@ -165,7 +165,7 @@ scp \
 
 echo '✅ Move files to right dirs at server machine'
 
-ssh root@server <'EOF'
+ssh root@server <<'EOF'
   mkdir -p /etc/kubernetes/config
   mv kube-apiserver \
     kube-controller-manager \
@@ -181,7 +181,7 @@ EOF
 
 echo '✅ start controlplane services api-server, controller-manager, scheduler'
 
-ssh root@server <'EOF'
+ssh root@server <<'EOF'
   mv kube-apiserver.service \
     /etc/systemd/system/kube-apiserver.service
   mv kube-controller-manager.kubeconfig /var/lib/kubernetes/
@@ -207,7 +207,7 @@ ssh root@server <<'EOF'
     --kubeconfig admin.kubeconfig
 EOF
 
-ssh root@server <'EOF'
+ssh root@server <<'EOF'
   echo 'Waiting for kube-controller-manager to start...'
   until systemctl is-active kube-controller-manager; do
     sleep 1
@@ -216,7 +216,7 @@ ssh root@server <'EOF'
   systemctl status kube-controller-manager
 EOF
 
-ssh root@server <'EOF'
+ssh root@server <<'EOF'
   echo 'Waiting for kube-scheduler to start...'
   until systemctl is-active kube-scheduler; do
     sleep 1
@@ -225,7 +225,7 @@ ssh root@server <'EOF'
   systemctl status kube-scheduler
 EOF
 
-ssh root@server <'EOF'
+ssh root@server <<'EOF'
   kubectl apply -f kube-apiserver-to-kubelet.yaml \
     --kubeconfig admin.kubeconfig
   echo 'kube-apiserver-to-kubelet ClusterRole and ClusterRoleBinding created.'
