@@ -236,3 +236,20 @@ curl --cacert ~/kubernetes-the-hard-way/certs/ca.crt \
   https://server.local:6443/version
 
 echo '✅ Creating control plane components successfully'
+
+if ! -f ~/.kube/config; then
+  kubectl config set-cluster kubernetes-the-hard-way \
+    --certificate-authority=/home/laborant/kubernetes-the-hard-way/certs/ca.crt \
+    --embed-certs=true \
+    --server=https://server.local:6443
+  kubectl config set-credentials admin \
+    --client-certificate=/home/laborant/kubernetes-the-hard-way/certs/admin.crt \
+    --client-key=/home/laborant/kubernetes-the-hard-way/certs/admin.key
+  kubectl config set-context kubernetes-the-hard-way \
+    --cluster=kubernetes-the-hard-way \
+    --user=admin
+  kubectl config use-context kubernetes-the-hard-way
+  echo '✅ Creating admin config at jumpbox'
+else
+  echo 'admin config is already installed, skipping installation.'
+fi
