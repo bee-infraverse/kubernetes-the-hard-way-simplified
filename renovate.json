@@ -1,4 +1,5 @@
 {
+  "repositories": ["bee-infraverse/kubernetes-the-hard-way-simplified"],
   "extends": [
     "config:recommended"
   ],
