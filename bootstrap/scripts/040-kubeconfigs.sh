@@ -114,10 +114,8 @@ echo '✅ Copy the kubelet and kube-proxy kubeconfig files to the node-0 and nod
 
 for host in node-0 node-1; do
   ssh root@${host} "mkdir -p /var/lib/kube-proxy /var/lib/kubelet"
-  scp kube-proxy.kubeconfig \
-    root@${host}:/var/lib/kube-proxy/kubeconfig \
-  scp ${host}.kubeconfig \
-    root@${host}:/var/lib/kubelet/kubeconfig
+  scp kube-proxy.kubeconfig root@${host}:/var/lib/kube-proxy/kubeconfig
+  scp ${host}.kubeconfig root@${host}:/var/lib/kubelet/kubeconfig
 done
 
 echo '✅ Copy the kube-controller-manager and kube-scheduler kubeconfig files to the server machine'
