@@ -79,10 +79,19 @@ else
   echo "Helm is already installed, skipping installation."
 fi
 
+if ! command -v k9s &> /dev/null; then
+  echo '✅ Install k9s.'
+  curl -sS https://webinstall.dev/k9s | bash
+  export PATH="/home/$USER/.local/bin:$PATH"
+  echo 'PATH="/home/$USER/.local/bin:$PATH' >>~/.bashrc
+fi
+
 if alias k &>/dev/null; then
-  echo "✅ alias 'k' is defined"
+  echo "alias 'k' is defined"
 else
   echo "✅ add alias 'k' and kubectl completion to bashrc. Source it again!"
   echo 'source <(kubectl completion bash)' >>~/.bashrc
   echo 'alias k=kubectl' >>~/.bashrc && echo 'complete -o default -F __start_kubectl k' >>~/.bashrc
 fi
+
+
