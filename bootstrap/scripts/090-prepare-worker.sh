@@ -39,7 +39,7 @@ EOF
 
 cat >kubelet-config.yaml <<EOF
 kind: KubeletConfiguration
-apiVersion: kubelet.config.k8s.io/v1beta
+apiVersion: kubelet.config.k8s.io/v1beta1
 address: "0.0.0.0"
 authentication:
   anonymous:
