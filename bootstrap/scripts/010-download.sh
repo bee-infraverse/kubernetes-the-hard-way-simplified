@@ -54,9 +54,10 @@ tar -xvf downloads/cni-plugins-linux-${ARCH}-${CNI_PLUGINS}.tgz \
 tar -xvf downloads/etcd-${ETCD_VERSION}-linux-${ARCH}.tar.gz \
   -C downloads/ \
   --strip-components 1 \
+  etcd-${ETCD_VERSION}-linux-${ARCH}/etcdutl \
   etcd-${ETCD_VERSION}-linux-${ARCH}/etcdctl \
   etcd-${ETCD_VERSION}-linux-${ARCH}/etcd
-mv downloads/{etcdctl,kubectl} downloads/client/
+mv downloads/{etcdctl,etcdutl,kubectl} downloads/client/
 mv downloads/{etcd,kube-apiserver,kube-controller-manager,kube-scheduler} \
   downloads/controller/
 mv downloads/{kubelet,kube-proxy} downloads/worker/
