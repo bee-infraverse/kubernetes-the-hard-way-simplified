@@ -21,11 +21,14 @@ fi
 
 DOWNLOAD_LIST="downloads-day2-${ARCH}.txt"
 TRIVY_ARCH=$(get_trivy_arch)
+if [[ "$ARCH" == "amd64" ]]; then
+    ARCH_DL="x86_64"
+fi
 
 cat >"${DOWNLOAD_LIST}" <<EOF
 https://github.com/moby/buildkit/releases/download/${BUILDCTL_VERSION}/buildkit-${BUILDCTL_VERSION}.linux-${ARCH}.tar.gz
 https://github.com/aquasecurity/trivy/releases/download/${TRIVY_VERSION}/trivy_${TRIVY_VERSION#v}_Linux-${TRIVY_ARCH}.tar.gz
-https://github.com/google/go-containerregistry/releases/download/${CRANE_VERSION}/go-containerregistry_Linux_${ARCH}.tar.gz
+https://github.com/google/go-containerregistry/releases/download/${CRANE_VERSION}/go-containerregistry_Linux_${ARCH_DL}.tar.gz
 https://github.com/anchore/grant/releases/download/${GRANT_VERSION}/grant_${GRANT_VERSION#v}_linux_${ARCH}.tar.gz
 https://github.com/anchore/syft/releases/download/${SYFT_VERSION}/syft_${SYFT_VERSION#v}_linux_${ARCH}.tar.gz
 https://github.com/anchore/grype/releases/download/${GRYPE_VERSION}/grype_${GRYPE_VERSION#v}_linux_${ARCH}.tar.gz
@@ -58,17 +61,27 @@ tar -xvf downloads/buildkit-${BUILDCTL_VERSION}.linux-${ARCH}.tar.gz \
   -C downloads/jumpbox/ \
   --strip-components 1 \
    bin/buildctl
-#tar -xvf downloads/trivy_${TRIVY_VERSION#v}_Linux-${ARCH}.tar.gz \
-#  -C downloads/jumpbox/
-#tar -xvf downloads/go-containerregistry_Linux_${ARCH}.tar.gz \
-#  -C downloads/jumpbox/
-#tar -xvf downloads/grant_${GRANT_VERSION#v}_linux_${ARCH}.tar.gz \
-#  -C downloads/jumpbox/
-#tar -xvf downloads/syft_${SYFT_VERSION#v}_linux_${ARCH}.tar.gz \
-#  -C downloads/jumpbox/
-#tar -xvf downloads/grype_${GRYPE_VERSION#v}_linux_${ARCH}.tar.gz \
-#  -C downloads/jumpbox/
-#cp downloads/regctl-linux-${ARCH} downloads/jumpbox/regctl
+tar -xvf downloads/trivy_${TRIVY_VERSION#v}_Linux-${ARCH}.tar.gz \
+  -C downloads/jumpbox/ \
+  --strip-components 1 \
+   trivy
+tar -xvf downloads/go-containerregistry_Linux_${ARCH}.tar.gz \
+  -C downloads/jumpbox/ \
+  --strip-components 1 \
+  crane
+tar -xvf downloads/grant_${GRANT_VERSION#v}_linux_${ARCH}.tar.gz \
+  -C downloads/jumpbox/ \
+  --strip-components 1 \
+  grant
+tar -xvf downloads/syft_${SYFT_VERSION#v}_linux_${ARCH}.tar.gz \
+  -C downloads/jumpbox/ \
+  --strip-components 1 \
+  syft
+tar -xvf downloads/grype_${GRYPE_VERSION#v}_linux_${ARCH}.tar.gz \
+  -C downloads/jumpbox/ \
+  --strip-components 1 \
+  grype
+cp downloads/regctl-linux-${ARCH} downloads/jumpbox/regctl
 
 chown +x downloads/jumpbox/*
 sudo chown root:root downloads/jumpbox/*
