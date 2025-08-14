@@ -33,20 +33,6 @@ function get_arch() {
   esac
 }
 
-function get_trivy_arch() {
-  case "$(uname -m)" in
-    armv5*) echo -n "ARM";;
-    armv6*) echo -n "ARM";;
-    armv7*) echo -n "ARM";;
-    arm64) echo -n "ARM64";;
-    aarch64) echo -n "ARM64";;
-    x86) echo -n "32bit";;
-    x86_64) echo -n "64bit";;
-    i686) echo -n "32bit";;
-    i386) echo -n "32bit";;
-  esac
-}
-
 function get_latest_github_tag() {
   local owner="${1}"
   local repo="${2}"
