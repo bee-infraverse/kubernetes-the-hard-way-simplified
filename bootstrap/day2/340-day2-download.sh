@@ -61,28 +61,27 @@ tar -xvf downloads/buildkit-${BUILDCTL_VERSION}.linux-${ARCH}.tar.gz \
   -C downloads/jumpbox/ \
   --strip-components 1 \
    bin/buildctl
-tar -xvf downloads/trivy_${TRIVY_VERSION#v}_Linux-${ARCH}.tar.gz \
+tar -xvf downloads/trivy_${TRIVY_VERSION#v}_Linux-${TRIVY_ARCH}.tar.gz \
   -C downloads/jumpbox/ \
-  --strip-components 1 \
    trivy
-tar -xvf downloads/go-containerregistry_Linux_${ARCH}.tar.gz \
+tar -xvf downloads/go-containerregistry_Linux_${ARCH_DL}.tar.gz \
   -C downloads/jumpbox/ \
-  --strip-components 1 \
   crane
 tar -xvf downloads/grant_${GRANT_VERSION#v}_linux_${ARCH}.tar.gz \
   -C downloads/jumpbox/ \
-  --strip-components 1 \
   grant
 tar -xvf downloads/syft_${SYFT_VERSION#v}_linux_${ARCH}.tar.gz \
   -C downloads/jumpbox/ \
-  --strip-components 1 \
   syft
 tar -xvf downloads/grype_${GRYPE_VERSION#v}_linux_${ARCH}.tar.gz \
   -C downloads/jumpbox/ \
-  --strip-components 1 \
   grype
-cp downloads/regctl-linux-${ARCH} downloads/jumpbox/regctl
+mv downloads/regctl-linux-${ARCH} downloads/jumpbox/regctl
 
 chown +x downloads/jumpbox/*
 sudo chown root:root downloads/jumpbox/*
 sudo cp downloads/jumpbox/* /usr/local/bin/
+
+echo '✅ Extracted build tools successfully'
+echo 'Cleaning up downloaded files...'
+rm -rf downloads/*.tar.gz
