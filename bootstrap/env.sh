@@ -13,3 +13,7 @@ export CLUSTER_DOMAIN=${CLUSTER_DOMAIN:-cluster.local}
 export COUNTRY="${COUNTRY:-DE}"
 export CITY="${CITY:-Bochum}"
 export STATE="${STATE:-NRW}"
+
+export CA_DIR="${CA_DIR:-~/kubernetes-the-hard-way/certs}"
+export CERTS_DIR="${CERTS_DIR:-~/kubernetes-the-hard-way/certs}"
+export KUBE_CONFIGS_DIR="${KUBE_CONFIGS_DIR:-~/kubernetes-the-hard-way/kube-configs}"

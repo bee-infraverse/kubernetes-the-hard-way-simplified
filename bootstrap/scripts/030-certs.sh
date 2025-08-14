@@ -13,18 +13,19 @@ cd ~/kubernetes-the-hard-way
 
 envsubst < ${GITROOT}/bootstrap/ca-template.conf > ca.conf
 
-mkdir -p ~/kubernetes-the-hard-way/certs && cd ~/kubernetes-the-hard-way/certs
+mkdir -p ${CA_DIR}
+mkdir -p ${CERTS_DIR} && cd ${CERTS_DIR}
 
 echo 'Generating CA certificate and key'
 
 # shellcheck disable=SC2016
-if [ ! -f ca.crt ]; then
+if [ ! -f ${CA_DIR}/ca.crt ]; then
   echo 'Generating CA certificate and key...'
-  openssl genrsa -out ca.key 4096
+  openssl genrsa -out ${CA_DIR}/ca.key 4096
   openssl req -x509 -new -sha512 -noenc \
-    -key ca.key -days 3653 \
-    -config ../ca.conf \
-    -out ca.crt
+    -key ${CA_DIR}/ca.key -days 3653 \
+    -config ~/kubernetes-the-hard-way/ca.conf \
+    -out ${CA_DIR}/ca.crt
 else
   echo 'CA certificate already exists, skipping generation.'
 fi
@@ -42,12 +43,12 @@ for i in ${certs[*]}; do
     echo "Generated ${i}.crt and ${i}.key"
     openssl genrsa -out "${i}.key" 4096
     openssl req -new -key "${i}.key" -sha256 \
-        -config "../ca.conf" -section ${i} \
+        -config "~/kubernetes-the-hard-way/ca.conf" -section ${i} \
         -out "${i}.csr"
     openssl x509 -req -days 3653 -in "${i}.csr" \
         -copy_extensions copyall \
-        -sha256 -CA "ca.crt" \
-        -CAkey "ca.key" \
+        -sha256 -CA "${CA_DIR}/ca.crt" \
+        -CAkey "${CA_DIR}/ca.key" \
         -CAcreateserial \
         -out "${i}.crt"
     echo "✅ Generated ${i}.crt and ${i}.key"
@@ -58,20 +59,20 @@ echo '✅ Created all certificates and keys'
 
 for host in node-0 node-1; do
   ssh root@${host} mkdir -p /var/lib/kubelet/
-  scp ca.crt root@${host}:/var/lib/kubelet/
-  scp ${host}.crt \
+  scp ${CA_DIR}/ca.crt \
+    root@${host}:/var/lib/kubelet/
+  scp ${CERTS_DIR}/${host}.crt \
     root@${host}:/var/lib/kubelet/kubelet.crt
-  scp ${host}.key \
+  scp ${CERTS_DIR}${host}.key \
     root@${host}:/var/lib/kubelet/kubelet.key
 done
 
 echo '✅ Copying certificates and keys to worker nodes'
 
-
 scp \
-  ca.key ca.crt \
-  kube-api-server.key kube-api-server.crt \
-  service-accounts.key service-accounts.crt \
+  ${CA_DIR}/ca.key ${CA_DIR}/ca.crt \
+  ${CERTS_DIR}/kube-api-server.key ${CERTS_DIR}/kube-api-server.crt \
+  ${CERTS_DIR}/service-accounts.key ${CERTS_DIR}/service-accounts.crt \
   root@server:~/
 
 echo '✅ Copy the appropriate certificates and private keys to the server machine'

@@ -9,20 +9,19 @@ strictMode
 
 . "${GITROOT}"/bootstrap/env.sh
 
-mkdir -p ~/kubernetes-the-hard-way/kube-configs
+mkdir -p ${KUBE_CONFIGS_DIR} && cd ${KUBE_CONFIGS_DIR}
 cd ~/kubernetes-the-hard-way/kube-configs
-
 echo 'Generating Kubernetes configuration files worker nodes'
 
 for host in node-0 node-1; do
   kubectl config set-cluster kubernetes-the-hard-way \
-    --certificate-authority=../certs/ca.crt \
+    --certificate-authority=${CA_DIR}/ca.crt \
     --embed-certs=true \
     --server=https://server.local:6443 \
     --kubeconfig=${host}.kubeconfig
   kubectl config set-credentials system:node:${host} \
-    --client-certificate=../certs/${host}.crt \
-    --client-key=../certs/${host}.key \
+    --client-certificate=${CERTS_DIR}/${host}.crt \
+    --client-key=${CERTS_DIR}/${host}.key \
     --embed-certs=true \
     --kubeconfig=${host}.kubeconfig
   kubectl config set-context default \
@@ -37,13 +36,13 @@ done
 echo '✅ Generate a kubeconfig file for the kube-proxy service'
 
 kubectl config set-cluster kubernetes-the-hard-way \
-  --certificate-authority=../certs/ca.crt \
+  --certificate-authority=${CA_DIR}/ca.crt \
   --embed-certs=true \
   --server=https://server.local:6443 \
   --kubeconfig=kube-proxy.kubeconfig
 kubectl config set-credentials system:kube-proxy \
-  --client-certificate=../certs/kube-proxy.crt \
-  --client-key=../certs/kube-proxy.key \
+  --client-certificate=${CERTS_DIR}/kube-proxy.crt \
+  --client-key=${CERTS_DIR}/kube-proxy.key \
   --embed-certs=true \
   --kubeconfig=kube-proxy.kubeconfig
 kubectl config set-context default \
@@ -56,13 +55,13 @@ kubectl config use-context default \
 echo '✅ Generate a kubeconfig file for the kube-controller-manager service'
 
 kubectl config set-cluster kubernetes-the-hard-way \
-  --certificate-authority=../certs/ca.crt \
+  --certificate-authority=${CA_DIR}/ca.crt \
   --embed-certs=true \
   --server=https://127.0.0.1:6443 \
   --kubeconfig=kube-controller-manager.kubeconfig
 kubectl config set-credentials system:kube-controller-manager \
-  --client-certificate=../certs/kube-controller-manager.crt \
-  --client-key=../certs/kube-controller-manager.key \
+  --client-certificate=${CERTS_DIR}/kube-controller-manager.crt \
+  --client-key=${CERTS_DIR}/kube-controller-manager.key \
   --embed-certs=true \
   --kubeconfig=kube-controller-manager.kubeconfig
 kubectl config set-context default \
@@ -75,13 +74,13 @@ kubectl config use-context default \
 echo '✅ Generate a kubeconfig file for the kube-scheduler service'
 
 kubectl config set-cluster kubernetes-the-hard-way \
-  --certificate-authority=../certs/ca.crt \
+  --certificate-authority=${CA_DIR}/ca.crt \
   --embed-certs=true \
   --server=https://127.0.0.1:6443 \
   --kubeconfig=kube-scheduler.kubeconfig
 kubectl config set-credentials system:kube-scheduler \
-  --client-certificate=../certs/kube-scheduler.crt \
-  --client-key=../certs/kube-scheduler.key \
+  --client-certificate=${CERTS_DIR}/kube-scheduler.crt \
+  --client-key=${CERTS_DIR}/kube-scheduler.key \
   --embed-certs=true \
   --kubeconfig=kube-scheduler.kubeconfig
 kubectl config set-context default \
@@ -94,13 +93,13 @@ kubectl config use-context default \
 echo '✅ Generate a kubeconfig file for the admin user'
 
 kubectl config set-cluster kubernetes-the-hard-way \
-  --certificate-authority=../certs/ca.crt \
+  --certificate-authority=${CA_DIR}/ca.crt \
   --embed-certs=true \
   --server=https://127.0.0.1:6443 \
   --kubeconfig=admin.kubeconfig
 kubectl config set-credentials admin \
-  --client-certificate=../certs/admin.crt \
-  --client-key=../certs/admin.key \
+  --client-certificate=${CERTS_DIR}/admin.crt \
+  --client-key=${CERTS_DIR}/admin.key \
   --embed-certs=true \
   --kubeconfig=admin.kubeconfig
 kubectl config set-context default \
