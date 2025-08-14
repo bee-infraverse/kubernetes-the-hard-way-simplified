@@ -68,7 +68,7 @@ for host in node-0 node-1; do
     root@${host}:/var/lib/kubelet/
   scp ${CERTS_DIR}/${host}.crt \
     root@${host}:/var/lib/kubelet/kubelet.crt
-  scp ${CERTS_DIR}${host}.key \
+  scp ${CERTS_DIR}/${host}.key \
     root@${host}:/var/lib/kubelet/kubelet.key
 done
 
