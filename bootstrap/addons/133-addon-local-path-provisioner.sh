@@ -9,7 +9,10 @@ strictMode
 
 cd ~/kubernetes-the-hard-way
 
+echo "Clone rancher chart of Local Path Provisioner!"
 git clone https://github.com/rancher/local-path-provisioner.git
+
+echo "Start Local Path Provisioner installation!"
 helm install local-path-storage local-path-provisioner/deploy/chart/local-path-provisioner \
   --namespace local-path-storage \
   --create-namespace \
@@ -24,4 +27,3 @@ kubectl get pods -n local-path-storage -l app=local-path-provisioner
 kubectl get storageclass | grep local-path
 
 echo "✅ Local Path Provisioner installed successfully"
-
