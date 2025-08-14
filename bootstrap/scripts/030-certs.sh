@@ -29,7 +29,7 @@ if [ ! -f ${CA_DIR}/ca.crt ]; then
   openssl genrsa -out ${CA_DIR}/ca.key 4096
   openssl req -x509 -new -sha512 -noenc \
     -key ${CA_DIR}/ca.key -days 3653 \
-    -config ~/kubernetes-the-hard-way/ca.conf \
+    -config ${HOME}/kubernetes-the-hard-way/ca.conf \
     -out ${CA_DIR}/ca.crt
 else
   echo 'CA certificate already exists, skipping generation.'
@@ -48,7 +48,7 @@ for i in ${certs[*]}; do
     echo "Generated ${i}.crt and ${i}.key"
     openssl genrsa -out "${i}.key" 4096
     openssl req -new -key "${i}.key" -sha256 \
-        -config "~/kubernetes-the-hard-way/ca.conf" -section ${i} \
+        -config "${HOME}/kubernetes-the-hard-way/ca.conf" -section ${i} \
         -out "${i}.csr"
     openssl x509 -req -days 3653 -in "${i}.csr" \
         -copy_extensions copyall \

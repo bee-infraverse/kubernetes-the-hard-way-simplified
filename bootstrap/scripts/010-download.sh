@@ -19,7 +19,9 @@ else
   echo 'Using existing downloads directory'
 fi
 
-cat >downloads-${ARCH}.txt <<EOF
+DOWNLOAD_LIST="downloads-${ARCH}.txt"
+
+cat >"${DOWNLOAD_LIST}" <<EOF
 https://dl.k8s.io/${K8S_VERSION}/bin/linux/${ARCH}/kubectl
 https://dl.k8s.io/${K8S_VERSION}/bin/linux/${ARCH}/kube-apiserver
 https://dl.k8s.io/${K8S_VERSION}/bin/linux/${ARCH}/kube-controller-manager
@@ -35,11 +37,21 @@ EOF
 
 echo 'downloading files'
 
-wget -q --show-progress \
-  --https-only \
-  --timestamping \
-  -P downloads \
-  -i downloads-${ARCH}.txt
+echo "[INFO] Checking files and downloading missing ones..."
+while read -r url; do
+    file="downloads/$(basename "$url")"
+    if [[ -f "$file" ]]; then
+        echo "[SKIP] $file already exists"
+    else
+        echo "[GET]  $url"
+        wget -q --show-progress --timestamping --https-only -O "$file" "$url"
+    fi
+done < "${DOWNLOAD_LIST}"
+
+if [ $? -ne 0 ]; then
+  echo "Error downloading files. Please check your internet connection or the URLs."
+  exit 1
+fi
 
 echo 'Extracting downloaded files'
 
