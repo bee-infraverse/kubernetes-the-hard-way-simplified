@@ -10,26 +10,39 @@ strictMode
 . "${GITROOT}"/bootstrap/env.sh
 
 cd ~/kubernetes-the-hard-way
-envsubst < ${GITROOT}/bootstrap/front-ca-template.conf > front-ca.conf
+if [ ! -f ${GITROOT}/bootstrap/front-ca-template.conf ]; then
+  echo '✅ Generating front CA configuration file...'
+  envsubst < ${GITROOT}/bootstrap/front-ca-template.conf > front-ca.conf
+else
+  echo 'Front CA configuration file already exists, skipping generation.'
+fi
 
-echo 'Generate the certs with openssl'
+echo "preparing api server for usage with aggregation api certs"
 
-cd ~/kubernetes-the-hard-way/certs
-openssl genrsa -out kubernetes-front-proxy-ca.key 4096
-openssl req -x509 -new -sha512 -noenc \
-  -key kubernetes-front-proxy-ca.key -days 3653 \
-  -config ../front-ca.conf \
-  -out kubernetes-front-proxy-ca.crt
-openssl genrsa -out "front-proxy-client.key" 4096
-openssl req -new -key "front-proxy-client.key" -sha256 \
-  -config "../front-ca.conf" -section front-proxy-client \
-  -out "front-proxy-client.csr"
-openssl x509 -req -days 3653 -in "front-proxy-client.csr" \
+cd ${CERTS_DIR}
+
+if [ ! -f ${CA_DIR}/kubernetes-front-proxy-ca.crt ]; then
+  echo '✅ Generating Kubernetes front proxy CA certificate and key...'
+  openssl genrsa -out ${CA_DIR}/kubernetes-front-proxy-ca.key 4096
+  openssl req -x509 -new -sha512 -noenc \
+    -key ${CA_DIR}/kubernetes-front-proxy-ca.key -days 3653 \
+    -config ${HOME}/kubernetes-the-hard-way/front-ca.conf \
+    -out ${CA_DIR}/kubernetes-front-proxy-ca.crt
+else
+  echo 'Kubernetes front proxy CA certificate already exists, skipping generation.'
+fi
+
+openssl genrsa -out "${CERTS_DIR}/front-proxy-client.key" 4096
+openssl req -new -key "${CERTS_DIR}/front-proxy-client.key" -sha256 \
+  -config "${HOME}/kubernetes-the-hard-way/front-ca.conf" -section front-proxy-client \
+  -out "${CERTS_DIR}/front-proxy-client.csr"
+openssl x509 -req -days 3653 -in "${CERTS_DIR}/front-proxy-client.csr" \
   -copy_extensions copyall \
-  -sha256 -CA "kubernetes-front-proxy-ca.crt" \
-  -CAkey "kubernetes-front-proxy-ca.key" \
+  -sha256 -CA "${CA_DIR}/kubernetes-front-proxy-ca.crt" \
+  -CAkey "${CA_DIR}/kubernetes-front-proxy-ca.key" \
   -CAcreateserial \
-  -out "front-proxy-client.crt"
+  -out "${CERTS_DIR}/front-proxy-client.crt"
+echo '✅ Generating Kubernetes api server front proxy client certificate and key...'
 
 cd ~/kubernetes-the-hard-way/units
 cat >kube-apiserver-aggregator.service <<'EOF'
@@ -81,8 +94,8 @@ cd ~/kubernetes-the-hard-way
 
 echo 'Copying kube-apiserver-aggregator service file to the server machine'
 scp \
-  certs/kubernetes-front-proxy-ca.key certs/kubernetes-front-proxy-ca.crt \
-  certs/front-proxy-client.key certs/front-proxy-client.crt \
+  ${CA_DIR}/kubernetes-front-proxy-ca.key ${CA_DIR}/kubernetes-front-proxy-ca.crt \
+  ${CERTS_DIR}/front-proxy-client.key ${CERTS_DIR}/front-proxy-client.crt \
   root@server:/var/lib/kubernetes
 scp \
   units/kube-apiserver-aggregator.service \
@@ -94,7 +107,7 @@ ssh root@server <<'EOF'
   until systemctl is-active kube-apiserver; do
     sleep 1
   done
-  echo 'kube-apiserver is running.'
+  echo '✅ kube-apiserver is running after reconfig.'
 EOF
 
 echo "Deploy the Metrics Server"
@@ -102,7 +115,7 @@ echo "Deploy the Metrics Server"
 if ! helm repo list | grep -q '^metrics-server'; then
   helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
 else
-  echo "✅ Helm repo 'metrics-server' already exists"
+  echo "Helm repo 'metrics-server' already exists"
 fi
 helm repo update
 
@@ -118,4 +131,4 @@ kubectl top nodes
 kubectl top pods -A
 kubectl get apiservices v1beta1.metrics.k8s.io -o yaml
 
-echo 'Metrics Server is running.'
+echo '✅ Metrics Server is running.'
