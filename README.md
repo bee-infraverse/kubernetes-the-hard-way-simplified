@@ -17,7 +17,7 @@ Whether you’re a DevOps engineer, platform builder, or just curious about how 
 At KubeCon 2025 in London, I had the joy of watching Kubernetes the Hard Way brought to life by Sandeep Kanabar and Lucy Sweet
 — two amazing engineers who made the journey both clear and inspiring. 
 Their session reignited my passion for hands-on learning and reminded me why this path matters.
-That experience inspired me to reimagine it for iximiuz labs — making Kubernetes internals easier to explore,
+That experience inspired me to reimagine it for [Iximiuz Labs](https://labs.iximiuz.com) — making Kubernetes internals easier to explore,
 quicker to start, and just as powerful to learn. This talk is about that journey — and 
 how we can keep learning the hard way, made a little easier.
 

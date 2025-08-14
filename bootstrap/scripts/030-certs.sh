@@ -11,7 +11,12 @@ strictMode
 
 cd ~/kubernetes-the-hard-way
 
-envsubst < ${GITROOT}/bootstrap/ca-template.conf > ca.conf
+if [ ! -f ca.conf ]; then
+  echo 'Generating CA configuration file...'
+  envsubst < ${GITROOT}/bootstrap/ca-template.conf > ca.conf
+else
+  echo 'CA configuration file already exists, skipping generation.'
+fi
 
 mkdir -p ${CA_DIR}
 mkdir -p ${CERTS_DIR} && cd ${CERTS_DIR}
