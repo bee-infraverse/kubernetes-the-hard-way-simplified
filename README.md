@@ -59,7 +59,7 @@ k top pods -A
 - [Home operations Github Projects](https://github.com/home-operations)
   - [Kubernetes Homelab Discord channel](https://discord.com/invite/homelab)
   - [onedr0p Kubernetes cluster-template](https://github.com/onedr0p/cluster-template)
-- [iximiuz labs](https://labs.iximiuz.com)
+- [Iximiuz Labs](https://labs.iximiuz.com)
 
 ## License
 
@@ -68,4 +68,5 @@ k top pods -A
 Great job, Kelsey, Sandeep and Lucy. I hope many more will follow the path you paved and continue the journey into the world of cloud native.
 
 Regards,
+
 `├─☺︎─┤` The Humble Sign Painter - Peter Rossbach
