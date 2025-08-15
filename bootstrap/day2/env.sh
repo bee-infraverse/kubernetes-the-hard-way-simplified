@@ -12,7 +12,7 @@ export HELM_VERSION=${HELM_VERSION:-v3.18.5} # renovate: datasource=github-relea
 export BUILDCTL_VERSION=${BUILDCTL_VERSION:-v0.23.2} # renovate: datasource=github-releases depName=moby/buildkit
 export TRIVY_VERSION=${TRIVY_VERSION:-v0.65.0} # renovate: datasource=github-releases depName=aquasecurity/trivy
 export CRANE_VERSION=${CRANE_VERSION:-v0.20.6} # renovate: datasource=github-releases depName=google/go-containerregistry
-export GRANT_VERSION=${GRANT_VERSION:-v0.2.8} # renovate: datasource=github-releases depName=anchore/grant
+export GRANT_VERSION=${GRANT_VERSION:-v0.2.9} # renovate: datasource=github-releases depName=anchore/grant
 export SYFT_VERSION=${SYFT_VERSION:-v1.29.1} # renovate: datasource=github-releases depName=anchore/syft
 export GRYPE_VERSION=${GRYPE_VERSION:-v0.97.1} # renovate: datasource=github-releases depName=anchore/grype
 export REGCTL_VERSION=${REGCTL_VERSION:-v0.9.0} # renovate: datasource=github-releases depName=regclient/regclient
