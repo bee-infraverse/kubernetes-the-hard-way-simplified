@@ -7,6 +7,7 @@ GITROOT=$(git rev-parse --show-toplevel)
 . "${GITROOT}"/lib/utils
 strictMode
 
+echo "Create local git repo at ~/repositories/cnbc-hugo-site.git"
 mkdir -p ~/repositories/cnbc-hugo-site.git
 cd ~/repositories/cnbc-hugo-site.git
 git --bare init
@@ -20,10 +21,12 @@ git config --global user.name "you"
 export YOUR_GIT_HOST=jumpbox.local
 echo "export YOUR_GIT_HOST=jumpbox.local" <<~/.bashrc
 
+echo "Clone local git repo to ~/cnbc-hugo-site"
 cd $HOME
 git clone ${USER}@${YOUR_GIT_HOST}:${HOME}/repositories/cnbc-hugo-site.git
 cd ~/cnbc-hugo-site
 
+echo "Create simple hugo site"
 docker run --rm --user $(id -u):$(id -g) -v $(pwd):/src hugomods/hugo hugo new site .
 
 git config --global init.defaultBranch main
@@ -48,6 +51,7 @@ draft: false
 Hello Again
 EOF
 
+echo "Commit and push simple hugo site"
 cd ~/cnbc-hugo-site
 git add .
 git commit -m "Initial checkin"

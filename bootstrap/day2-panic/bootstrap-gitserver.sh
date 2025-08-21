@@ -11,7 +11,9 @@ YOUR_GIT_HOST=jumpbox.local
 
 if [ ! -f ~/.ssh/id_cnbc-sync-rsa ]; then
   ssh-keygen -t rsa -b 4096 -N "" -f ~/.ssh/id_cnbc-sync-rsa
+  chmod 600 ~/.ssh/authorized_keys
   cat ~/.ssh/id_cnbc-sync-rsa.pub >>~/.ssh/authorized_keys
+  chmod 400 ~/.ssh/authorized_keys
   ssh-keyscan $YOUR_GIT_HOST >>~/.ssh/known_hosts
   echo "SSH key '~/.ssh/id_cnbc-sync-rsa' created!"
 else
@@ -20,7 +22,6 @@ fi
 
 if ! kubectl get namespace content-site >/dev/null 2>&1; then
   kubectl create namespace content-site    
-  echo "Namespace 'content-site' created!"
 else
   echo "Namespace 'content-site' already exists, skipping."
 fi
@@ -31,7 +32,6 @@ if ! kubectl get secret git-creds -n content-site >/dev/null 2>&1; then
     -n content-site \
     --from-file=ssh=$HOME/.ssh/id_cnbc-sync-rsa \
     --from-file=known_hosts=/tmp/known_hosts
-  echo "Secret 'git-creds' created!"
 else
   echo "Secret 'git-creds' already exists, skipping."
 fi
