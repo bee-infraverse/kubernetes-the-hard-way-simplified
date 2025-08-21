@@ -34,7 +34,7 @@ if [ ! -d ~/cnbc-hugo-site ]; then
   cd ~/cnbc-hugo-site
 
   echo "Create simple hugo site"
-  docker run --rm --user $(id -u):$(id -g) -v $(pwd):/src hugomods/hugo hugo new site .
+  docker run --rm --user $(id -u):$(id -g) -v $(pwd):/src hugomods/hugo hugo new site --force .
 
   git config --global init.defaultBranch main
   git init

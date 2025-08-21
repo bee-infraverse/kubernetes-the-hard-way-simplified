@@ -12,6 +12,7 @@ YOUR_GIT_HOST=jumpbox.local
 if [ ! -f ~/.ssh/id_cnbc-sync-rsa ]; then
   ssh-keygen -t rsa -b 4096 -N "" -f ~/.ssh/id_cnbc-sync-rsa
   chmod 600 ~/.ssh/authorized_keys
+  echo "" >>~/.ssh/authorized_keys
   cat ~/.ssh/id_cnbc-sync-rsa.pub >>~/.ssh/authorized_keys
   chmod 400 ~/.ssh/authorized_keys
   ssh-keyscan $YOUR_GIT_HOST >>~/.ssh/known_hosts
