@@ -19,7 +19,7 @@ git config --global user.email "you@example.com"
 git config --global user.name "you"
 
 export YOUR_GIT_HOST=jumpbox.local
-echo "export YOUR_GIT_HOST=jumpbox.local" <<~/.bashrc
+echo "export YOUR_GIT_HOST=jumpbox.local" >>~/.bashrc
 
 echo "Clone local git repo to ~/cnbc-hugo-site"
 cd $HOME
@@ -41,10 +41,11 @@ theme = "ananke"
 EOF
 mkdir -p content/posts/
 
+DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 cat >content/posts/my-first-post.md <<EOF
 ---
 title: "CNBC News Post"
-date: $(date -u +"%Y-%m-%dT%H:%M:%SZ")
+date: "$DATE"
 draft: false
 ---
  
@@ -56,3 +57,5 @@ cd ~/cnbc-hugo-site
 git add .
 git commit -m "Initial checkin"
 git push
+
+echo "Usage: source ~/.bashrc"
