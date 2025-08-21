@@ -10,9 +10,9 @@ strictMode
 . "${GITROOT}"/bootstrap/env.sh
 
 cd ~/kubernetes-the-hard-way
-if [ ! -f ${GITROOT}/bootstrap/front-ca-template.conf ]; then
+if [ ! -f $HOME/kubernetes-the-hard-way/front-ca.conf ]; then
   echo '✅ Generating front CA configuration file...'
-  envsubst < ${GITROOT}/bootstrap/front-ca-template.conf > front-ca.conf
+  envsubst < ${GITROOT}/bootstrap/front-ca-template.conf > ${HOME}/kubernetes-the-hard-way/front-ca.conf
 else
   echo 'Front CA configuration file already exists, skipping generation.'
 fi

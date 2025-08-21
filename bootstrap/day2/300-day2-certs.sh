@@ -12,7 +12,7 @@ strictMode
 cd ~/kubernetes-the-hard-way
 
 if [ ! -f ~/kubernetes-the-hard-way/etcd-ca.conf ]; then
-  envsubst < ${GITROOT}/bootstrap/etcd-ca-template.conf > etcd-ca.conf
+  envsubst < ${GITROOT}/bootstrap/etcd-ca-template.conf > ~/kubernetes-the-hard-way/etcd-ca.conf
 else
   echo 'etcd-ca.conf already exists, skipping generation.'
 fi
