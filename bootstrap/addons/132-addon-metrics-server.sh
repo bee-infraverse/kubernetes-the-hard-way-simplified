@@ -100,6 +100,7 @@ scp \
 scp \
   units/kube-apiserver-aggregator.service \
   root@server:/etc/systemd/system/kube-apiserver.service
+echo 'restart kube-apiserver at the server machine'
 ssh root@server "systemctl daemon-reload && systemctl restart kube-apiserver"
 
 ssh root@server <<'EOF'
