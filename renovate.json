@@ -14,5 +14,21 @@
         "export (?<var>[A-Z_]+)_VERSION=\\$\\{[^}]*:-(?<currentValue>v?[0-9]+\\.[0-9]+\\.[0-9]+)\\}.*?#\\s?renovate: datasource=(?<datasource>[^\\s]+) depName=(?<depName>[^\\s]+)"
       ]
     }
+  ],
+  "packageRules": [
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["moby/buildkit"],
+      "enabled": true,
+      "pinDigests": false,
+      "groupName": "buildkit updates"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["tonistiigi/binfmt"],
+      "enabled": true,
+      "pinDigests": false,
+      "groupName": "buildkit updates"
+    }
   ]
 }

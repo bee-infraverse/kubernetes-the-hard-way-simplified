@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: content-site-headless
+spec:
+  type: ClusterIP
+  clusterIP: None
+  selector:
+    app: content-site
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: http

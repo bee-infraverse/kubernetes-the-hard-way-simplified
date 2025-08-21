@@ -7,7 +7,7 @@ GITROOT=$(git rev-parse --show-toplevel)
 . "${GITROOT}"/lib/utils
 strictMode
 
-. "${GITROOT}"/bootstrap/day2/env.sh
+. "${GITROOT}"/bootstrap/hack/buildkitd/env.sh
 
 mkdir -p ~/kubernetes-the-hard-way
 cd ~/kubernetes-the-hard-way
@@ -19,7 +19,7 @@ else
   echo 'Using existing downloads directory'
 fi
 
-DOWNLOAD_LIST="downloads-day2-${ARCH}.txt"
+DOWNLOAD_LIST="tools-${ARCH}.txt"
 TRIVY_ARCH=$(get_trivy_arch)
 if [[ "$ARCH" == "amd64" ]]; then
     ARCH_DL="x86_64"

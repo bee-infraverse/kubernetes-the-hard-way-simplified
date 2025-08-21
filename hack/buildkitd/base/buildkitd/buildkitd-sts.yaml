@@ -1,0 +1,84 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: buildkit
+  namespace: buildkit
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: buildkit
+  serviceName: buildkitd-headless
+  template:
+    metadata:
+      labels:
+        app: buildkit
+    spec:
+      initContainers:
+      - name: install-binfmt
+        image: docker.io/tonistiigi/binfmt:qemu-v9.2.2
+        command: [ "binfmt", "--install", "all" ]
+        # must be privileged to register handlers via binfmt_misc
+        securityContext:
+          privileged: true
+      containers:
+      - name: buildkitd
+        image: docker.io/moby/buildkit:0.23.2
+        args:
+        - --addr=tcp://0.0.0.0:1234
+        - --addr=unix:///run/buildkit/buildkitd.sock
+        securityContext:
+          privileged: true
+        ports:
+        - containerPort: 1234
+        readinessProbe:
+          exec:
+            command:
+            - buildctl
+            - debug
+            - workers
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        livenessProbe:
+          exec:
+            command:
+            - buildctl
+            - debug
+            - workers
+          initialDelaySeconds: 5
+          periodSeconds: 30
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/buildkit
+        - name: buildkit-config
+          mountPath: /etc/buildkit/buildkit.toml
+          subPath: buildkit.toml
+          readOnly: true
+        - name: docker-config
+          mountPath: /root/.docker
+          readOnly: true
+      volumes:
+      - name: buildkit-config
+        configMap:
+          name: buildkit-config
+          optional: true
+          items:
+          - key: buildkit.toml
+            path: buildkit.toml
+      - name: docker-config
+        secret:
+          secretName: docker-config
+          optional: true
+          items:
+          - key: config.json
+            path: config.json
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 10Gi
+      storageClassName: "local-path"

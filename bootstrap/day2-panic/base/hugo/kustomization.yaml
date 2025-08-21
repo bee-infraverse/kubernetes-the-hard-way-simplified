@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- content-site-deploy.yaml
+- content-site-svc.yaml
+- content-site-headless.yaml
+images:
+- name: docker.io/hugomods/hugo # renovate: datasource=docker depName=hugomods/hugo
+  newTag: "non-root-0.148.2"
+- name: registry.k8s.io/git-sync/git-sync # renovate: datasource=docker depName=git-sync/git-sync
+  newTag: "v4.4.2"
+- name: docker.io/library/nginx # renovate: datasource=docker depName=library/nginx
+  newTag: "1.27.1"

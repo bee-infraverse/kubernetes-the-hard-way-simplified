@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- buildkitd-sts.yaml
+- buildkitd-svc.yaml
+- buildkitd-svc-headless.yaml
+
+images:
+- name: docker.io/moby/buildkit # renovate: datasource=docker depName=moby/buildkit
+  newTag: "0.23.2"
+- name: docker.io/tonistiigi/binfmt # renovate: datasource=docker depName=tonistiigi/binfmt
+  newTag: "qemu-v9.2.2"

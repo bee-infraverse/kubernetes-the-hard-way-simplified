@@ -1,0 +1,91 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: content-site
+  labels: &labels
+    app: content-site
+spec:
+  replicas: 1
+  selector:
+    matchLabels: *labels
+  serviceName: content-site-headless
+  template:
+    metadata:
+      labels: *labels
+    spec:
+      containers:
+      - image: docker.io/library/nginx:1.27.1
+        name: nginx
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            memory: "256Mi"
+        volumeMounts:
+        - name: site-data
+          mountPath: /usr/share/nginx/html
+        readinessProbe:
+          exec:
+            command:
+            - cat
+            - /usr/share/nginx/html/index.html
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 3
+      initContainers:
+      - image: registry.k8s.io/git-sync/git-sync:v4.2.2
+        name: gitsync-pull
+        args:
+        - --repo=laborant@jumpbox.local:/home/laborant/repositories/cnbc-hugo-site.git
+        - --root=/git/root
+        - --ssh
+        - --link=repo
+        - --depth=1
+        - --period=30s
+        - --branch=main
+        volumeMounts:
+        - name: git-secret
+          mountPath: /etc/git-secret
+        - name: git-data
+          mountPath: "/git/root"
+        securityContext:
+          runAsUser: 65533
+        restartPolicy: Always
+        startupProbe:
+          exec:
+            command:
+            - cat
+            - /tmp/git/root/html/index.html
+      - name: hugo
+        image: docker-io/hugomods/hugo:non-root-0.148.2
+        command: [ "hugo", "server", "--bind", "0.0.0.0", "--baseURL", "/", "--source", "/git/repo", "--destination", "/output", "--renderToDisk" ]
+        securityContext:
+          runAsUser: 65533
+        restartPolicy: Always
+        volumeMounts:
+        - name: git-data
+          mountPath: /git
+        - name: site-data
+          mountPath: /output
+      volumes:
+      - name: site-data
+        emptyDir: {}
+      - name: git-secret
+        secret:
+          secretName: git-creds
+          defaultMode: 400
+      securityContext:
+        fsGroup: 65533
+  volumeClaimTemplates:
+  - metadata:
+      name: git-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+      storageClassName: "local-path"
