@@ -12,3 +12,5 @@ images:
   newTag: "v4.4.2"
 - name: docker.io/library/nginx # renovate: datasource=docker depName=library/nginx
   newTag: "1.27.1"
+- name: docker.io/library/aline # renovate: datasource=docker depName=library/alpine
+  newTag: "3.22"

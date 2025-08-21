@@ -23,6 +23,9 @@ spec:
             memory: "128Mi"
           limits:
             memory: "256Mi"
+        ports:
+        - name: http
+          containerPort: 80
         volumeMounts:
         - name: site-data
           mountPath: /usr/share/nginx/html
@@ -42,16 +45,15 @@ spec:
         args:
         - --repo=laborant@jumpbox.local:/home/laborant/repositories/cnbc-hugo-site.git
         - --root=/git/root
-        - --ssh
         - --link=repo
         - --depth=1
         - --period=30s
-        - --branch=main
+        - --ref=main
         volumeMounts:
         - name: git-secret
           mountPath: /etc/git-secret
         - name: git-data
-          mountPath: "/git/root"
+          mountPath: /git/root
         securityContext:
           runAsUser: 65533
         restartPolicy: Always
@@ -59,10 +61,16 @@ spec:
           exec:
             command:
             - cat
-            - /tmp/git/root/html/index.html
+            - /git/root/repo/hugo.toml
+      - name: chmod
+        image: alpine:3.22
+        command: [ "chown", "-R", "65533:65533", "/output" ]
+        volumeMounts:
+        - name: site-data
+          mountPath: /output
       - name: hugo
-        image: docker-io/hugomods/hugo:non-root-0.148.2
-        command: [ "hugo", "server", "--bind", "0.0.0.0", "--baseURL", "/", "--source", "/git/repo", "--destination", "/output", "--renderToDisk" ]
+        image: docker.io/hugomods/hugo:non-root-0.148.2
+        command: [ "hugo", "server", "--bind", "0.0.0.0", "--baseURL", "/", "--source", "/git/repo", "--destination", "/output" ]
         securityContext:
           runAsUser: 65533
         restartPolicy: Always

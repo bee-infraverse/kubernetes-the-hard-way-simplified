@@ -113,7 +113,7 @@ else
   echo 'alias k=kubectl' >>~/.bashrc && echo 'complete -o default -F __start_kubectl k' >>~/.bashrc
 fi
 
-if kubectl krew list &>/dev/null; then
+if ! kubectl krew list &>/dev/null; then
   (
     set -x; cd "$(mktemp -d)" &&
     OS="$(uname | tr '[:upper:]' '[:lower:]')" &&
@@ -124,6 +124,8 @@ if kubectl krew list &>/dev/null; then
     ./"${KREW}" install krew
   )
   echo 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"' >>~/.bashrc
+  export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+  kubectl krew install ns ctx images node-shell stern neat ktop
   echo '✅ krew is  installed.'
 else
   echo 'krew is already installed, skipping installation.'

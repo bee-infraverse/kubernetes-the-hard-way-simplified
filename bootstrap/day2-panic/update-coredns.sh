@@ -7,5 +7,8 @@ GITROOT=$(git rev-parse --show-toplevel)
 . "${GITROOT}"/lib/utils
 strictMode
 
-kubectl ns content-site
-kubectl -n content-site apply -k ${GITROOT}/bootstrap/day2-panic/base/hugo
+helm upgrade --install coredns coredns/coredns \
+  --namespace kube-system \
+  --values ${GITROOT}/bootstrap/day2-panic/coredns/coredns-hosts-values.yaml \
+  --reuse-values \
+  --wait
