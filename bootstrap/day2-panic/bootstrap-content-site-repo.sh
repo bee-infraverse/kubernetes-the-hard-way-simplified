@@ -38,24 +38,24 @@ if [ ! -d ~/cnbc-hugo-site ]; then
   git init
   git submodule add https://github.com/theNewDynamic/gohugo-theme-ananke.git themes/ananke
   cat >>hugo.toml <<EOF
-  theme = "ananke"
+theme = "ananke"
+
+[params]
+  background_color_class = "bg-yellow"
   
-  [params]
-    background_color_class = "bg-yellow"
-  
-  EOF
+EOF
   mkdir -p content/posts/
 
   DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
   cat >content/posts/my-first-post.md <<EOF
-  ---
-  title: "CNBC News Post"
-  date: "$DATE"
-  draft: false
-  ---
-  
-  Hello Again
-  EOF
+---
+title: "CNBC News Post"
+date: "$DATE"
+draft: false
+---
+
+Hello Again
+EOF
 
   echo "Commit and push simple hugo site"
   cd ~/cnbc-hugo-site
