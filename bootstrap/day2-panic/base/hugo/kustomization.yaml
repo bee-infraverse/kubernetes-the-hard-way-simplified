@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
 - content-site-sts.yaml
 - content-site-svc.yaml
-- content-site-headless.yaml
+- content-site-svc-headless.yaml
 images:
 - name: docker.io/hugomods/hugo # renovate: datasource=docker depName=hugomods/hugo
   newTag: "non-root-0.148.2"
