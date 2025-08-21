@@ -22,6 +22,7 @@ if [ ! -d ~/repositories/cnbc-hugo-site.git ]; then
   export YOUR_GIT_HOST=jumpbox.local
   echo "export YOUR_GIT_HOST=jumpbox.local" >>~/.bashrc
 else
+  source ~/.bashrc
   echo "The repo ~/repositories/cnbc-hugo-site.git, exists."
 fi
 
