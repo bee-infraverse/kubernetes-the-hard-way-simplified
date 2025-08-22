@@ -1,2 +1,3 @@
 kubernetes-the-hard-way/
 .DS_Store
+bootstrap/day2-panic/coredns/coredns-hosts-values.yaml

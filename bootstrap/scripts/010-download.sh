@@ -125,8 +125,23 @@ if ! kubectl krew list &>/dev/null; then
   )
   echo 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"' >>~/.bashrc
   export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-  kubectl krew install ns ctx images node-shell stern neat ktop
-  echo '✅ krew is  installed.'
+  PACKAGES="ns ctx images node-shell stern neat ktop explore"
+  kubectl krew install $PACKAGES
+  echo '✅ krew package $PACKAGES are installed.'
 else
   echo 'krew is already installed, skipping installation.'
+fi
+
+if ! -f "/usr/local/opt/kube-ps1/share/kube-ps1.sh" ; then
+  curl -s https://raw.githubusercontent.com/jonmosco/kube-ps1/master/kube-ps1.sh >./kube-ps1.sh
+  
+  sudo mkdir -p /usr/local/opt/kube-ps1/share
+  sudo cp kube-ps1.sh /usr/local/opt/kube-ps1/share
+  sudo chmod +x /usr/local/opt/kube-ps1/share/kube-ps1.sh
+  
+  echo "source /usr/local/opt/kube-ps1/share/kube-ps1.sh" >>~/.bashrc
+  echo "PS1='\$(kube_ps1)'\$PS1\\\\n" >>~/.bashrc
+  echo '✅ kube-ps1.sh is installed.'
+else
+  echo 'kube-ps1.sh is already installed, skipping installation.'
 fi
