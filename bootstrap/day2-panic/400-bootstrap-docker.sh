@@ -12,5 +12,6 @@ cd $HOME
 curl -fsSL https://get.docker.com -o get-docker.sh
 # review get-docker.sh
 sudo sh get-docker.sh
+sudo systemctl start docker
 sudo usermod -aG docker ${USER}
 newgrp docker
