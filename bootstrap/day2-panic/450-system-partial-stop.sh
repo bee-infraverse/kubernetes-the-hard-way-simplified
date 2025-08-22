@@ -8,7 +8,8 @@ GITROOT=$(git rev-parse --show-toplevel)
 strictMode
 
 echo "stop kube-scheduler and kube-controller-manager at server"
-ssh root@server <<EOF
+
+ssh -T root@server <<'EOF'
   systemctl stop kube-scheduler
   systemctl stop kube-controller-manager
 EOF
@@ -16,10 +17,10 @@ EOF
 for host in node-0 node-1; do
 echo "stop kubelet and kube-proxy at worker ${host}"
 
-ssh root@${host} <<EOF
-systemctl stop kubelet
-systemctl stop containerd
-systemctl stop kube-proxy
+ssh -T root@${host} <<'EOF'
+  systemctl stop kubelet
+  systemctl stop containerd
+  systemctl stop kube-proxy
 EOF
 
 done
