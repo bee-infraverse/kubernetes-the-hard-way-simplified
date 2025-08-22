@@ -125,9 +125,8 @@ if ! kubectl krew list &>/dev/null; then
   )
   echo 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"' >>~/.bashrc
   export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-  PACKAGES=ns ctx images node-shell stern neat ktop explore
-  kubectl krew install $PACKAGES
-  echo '✅ krew package $PACKAGES are installed.'
+  kubectl krew install ns ctx images node-shell stern neat ktop explore
+  echo '✅ krew packages are installed.'
 else
   echo 'krew is already installed, skipping installation.'
 fi
