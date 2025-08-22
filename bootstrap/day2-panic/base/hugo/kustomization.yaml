@@ -14,3 +14,7 @@ images:
   newTag: "1.27.1"
 - name: docker.io/library/aline # renovate: datasource=docker depName=library/alpine
   newTag: "3.22"
+configMapGenerator:
+- name: gitsync
+  literals:
+  - GIT_REPO="laborant@jumpbox.local:/home/laborant/repositories/cnbc-hugo-site.git"

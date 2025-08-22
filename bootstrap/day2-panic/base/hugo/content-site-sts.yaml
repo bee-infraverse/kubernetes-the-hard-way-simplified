@@ -43,12 +43,15 @@ spec:
       - image: registry.k8s.io/git-sync/git-sync:v4.2.2
         name: gitsync-pull
         args:
-        - --repo=laborant@jumpbox.local:/home/laborant/repositories/cnbc-hugo-site.git
+        - --repo=$GIT_REPO
         - --root=/git/root
         - --link=repo
         - --depth=1
         - --period=30s
         - --ref=main
+        envFrom:
+        - configMapRef:
+            name: gitsync
         volumeMounts:
         - name: git-secret
           mountPath: /etc/git-secret
@@ -62,7 +65,7 @@ spec:
             command:
             - cat
             - /git/root/repo/hugo.toml
-      - name: chmod
+      - name: chown
         image: alpine:3.22
         command: [ "chown", "-R", "65533:65533", "/output" ]
         volumeMounts:
