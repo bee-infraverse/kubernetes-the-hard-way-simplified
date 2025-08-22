@@ -44,7 +44,7 @@ scripts/040-kubeconfigs.sh
 # stop services
 echo 'Stopping services on the control-plane machine'
 
-ssh root@server <<'EOF'
+ssh -T root@server <<'EOF'
 systemctl stop kube-scheduler
 systemctl stop kube-controller-manager
 systemctl stop kube-apiserver
@@ -52,7 +52,7 @@ EOF
 
 # transfer certs and kubeconfigs and start services
 echo 'Transferring certificates and kubeconfigs and starting the control-plane services'
-ssh root@server <<EOF
+ssh -T root@server <<EOF
   mv ca.crt ca.key \
     kube-api-server.key kube-api-server.crt \   
     service-accounts.key service-accounts.crt \
@@ -70,7 +70,7 @@ EOF
 for host in node-0 node-1; do
 echo "restarting kubelet and kube-proxy at worker ${host}"
 
-ssh root@${host} <<EOF
+ssh -T root@${host} <<EOF
 systemctl daemon-reload
 systemctl restart kubelet
 systemctl restart kube-proxy
