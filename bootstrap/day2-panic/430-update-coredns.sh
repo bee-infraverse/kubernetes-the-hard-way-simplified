@@ -18,8 +18,10 @@ else
   echo 'coredns helm chart value file already exists, skipping generation.'
 fi
 
+echo 'Start coredns update with local hosts support.'
 helm upgrade --install coredns coredns/coredns \
   --namespace kube-system \
   --values ${GITROOT}/bootstrap/day2-panic/coredns/coredns-hosts-values.yaml \
   --reuse-values \
   --wait
+echo '✅ Start coredns update with local hosts support avaiable'

@@ -126,7 +126,7 @@ helm upgrade --install metrics-server metrics-server/metrics-server \
   --wait
 
 echo 'Waiting for Metrics Server to start...'
-kubectl wait --for=condition=available --timeout=90s deployment/metrics-server -n kube-system
+#kubectl wait --for=condition=available --timeout=90s deployment/metrics-server -n kube-system
 
 kubectl top nodes
 kubectl top pods -A

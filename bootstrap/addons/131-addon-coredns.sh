@@ -48,8 +48,7 @@ helm upgrade --install coredns coredns/coredns \
   --set k8sAppLabelOverride="kube-dns" \
   --wait
 
-kubectl wait --for=condition=available --timeout=60s deployment/coredns -n kube-system
-kubectl get pods -n kube-system -l k8s-app=kube-dns
+#kubectl wait --for=condition=available --timeout=60s deployment/coredns -n kube-system
+kubectl get pods -n kube-system -l k8s- dapp=kube-dns
 
 echo "✅ CoreDNS is now running. You can check its status with:"
-

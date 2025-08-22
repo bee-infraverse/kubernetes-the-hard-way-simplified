@@ -36,4 +36,5 @@ if ! kubectl get secret git-creds -n content-site >/dev/null 2>&1; then
 else
   echo "Secret 'git-creds' already exists, skipping."
 fi
+echo "✅ local ssh key creation finished!"
 
