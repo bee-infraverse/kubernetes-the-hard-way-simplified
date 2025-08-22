@@ -10,7 +10,7 @@ servers:
       lameduck 10s
   - name: ready
   - name: kubernetes
-    parameters: cluster.local in-addr.arpa ip6.arpa
+    parameters: ${CLUSTER_DOMAIN} in-addr.arpa ip6.arpa
     configBlock: |-
       pods insecure
       fallthrough in-addr.arpa ip6.arpa
