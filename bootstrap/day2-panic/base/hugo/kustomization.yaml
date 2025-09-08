@@ -9,7 +9,7 @@ images:
 - name: docker.io/hugomods/hugo # renovate: datasource=docker depName=hugomods/hugo
   newTag: "non-root-0.148.2"
 - name: registry.k8s.io/git-sync/git-sync # renovate: datasource=docker depName=git-sync/git-sync
-  newTag: "v4.4.2"
+  newTag: "v4.4.3"
 - name: docker.io/library/nginx # renovate: datasource=docker depName=library/nginx
   newTag: "1.29.1"
 - name: docker.io/library/alpine # renovate: datasource=docker depName=library/alpine
