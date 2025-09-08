@@ -9,7 +9,7 @@ strictMode
 
 for node in node-0 node-1; do
   echo "Preparing ${node} for Kubernetes worker node"
-  ssh root@${node} <<EOF
+  ssh -T root@${node} <<EOF
     swapon --show
     swapoff -a
     mkdir -p \
@@ -52,7 +52,7 @@ done
 
 echo "Waiting for kubelet and kube-proxy to start on worker nodes"
 for node in node-0 node-1; do
-    ssh root@${node} <<EOF
+    ssh -T root@${node} <<EOF
         echo "Waiting for ${node} to start..."
         until systemctl is-active kubelet && systemctl is-active containerd && systemctl is-active kube-proxy; do
             sleep 1

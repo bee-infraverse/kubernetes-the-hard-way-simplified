@@ -20,8 +20,8 @@ helm install local-path-storage local-path-provisioner/deploy/chart/local-path-p
   --set nodePath="/opt/local-path-provisioner" \
   --wait
 
-kubectl wait deployment/local-path-storage-local-path-provisioner -n local-path-storage \
-  --for condition=Available=True --timeout=30s
+#kubectl wait deployment/local-path-storage-local-path-provisioner -n local-path-storage \
+#  --for condition=Available=True --timeout=30s
 
 kubectl get pods -n local-path-storage -l app=local-path-provisioner
 kubectl get storageclass | grep local-path

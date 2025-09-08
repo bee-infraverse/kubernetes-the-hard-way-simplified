@@ -103,7 +103,7 @@ scp \
 echo 'restart kube-apiserver at the server machine'
 ssh root@server "systemctl daemon-reload && systemctl restart kube-apiserver"
 
-ssh root@server <<'EOF'
+ssh -T root@server <<'EOF'
   echo 'Waiting for kube-apiserver to start...'
   until systemctl is-active kube-apiserver; do
     sleep 1
@@ -126,7 +126,7 @@ helm upgrade --install metrics-server metrics-server/metrics-server \
   --wait
 
 echo 'Waiting for Metrics Server to start...'
-kubectl wait --for=condition=available --timeout=90s deployment/metrics-server -n kube-system
+#kubectl wait --for=condition=available --timeout=90s deployment/metrics-server -n kube-system
 
 kubectl top nodes
 kubectl top pods -A

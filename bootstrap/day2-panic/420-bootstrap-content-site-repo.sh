@@ -21,6 +21,7 @@ if [ ! -d ~/repositories/cnbc-hugo-site.git ]; then
 
   export YOUR_GIT_HOST=jumpbox.local
   echo "export YOUR_GIT_HOST=jumpbox.local" >>~/.bashrc
+  echo "✅ $YOUR_GIT_HOST now as git server available!"
 else
   export GIT_SSH_COMMAND="/usr/bin/ssh -o StrictHostKeyChecking=yes -i ~/.ssh/id_cnbc-sync-rsa"
   export YOUR_GIT_HOST=jumpbox.local
@@ -33,7 +34,7 @@ if [ ! -d ~/cnbc-hugo-site ]; then
   git clone ${USER}@${YOUR_GIT_HOST}:${HOME}/repositories/cnbc-hugo-site.git
   cd ~/cnbc-hugo-site
 
-  echo "Create simple hugo site"
+  echo "✅ Create simple hugo site"
   docker run --rm --user $(id -u):$(id -g) -v $(pwd):/src hugomods/hugo hugo new site --force .
 
   git config --global init.defaultBranch main
@@ -64,6 +65,8 @@ EOF
   git add .
   git commit -m "Initial checkin"
   git push
+
+  echo "✅ git content-site repo avialable!"
 else
   echo "The first content at dir ~/cnbc-hugo-site, exists."
 fi

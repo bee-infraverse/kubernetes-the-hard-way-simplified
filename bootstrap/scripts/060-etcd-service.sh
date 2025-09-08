@@ -47,7 +47,7 @@ scp \
 
 echo 'Setting up etcd on the server machine'
 
-ssh root@server <<'EOF'
+ssh -T root@server <<'EOF'
   mv etcd etcdctl etcdutl /usr/local/bin/
   mkdir -p /etc/etcd /var/lib/etcd
   chmod 700 /var/lib/etcd
@@ -59,7 +59,7 @@ ssh root@server <<'EOF'
 EOF
 echo 'Waiting for etcd to start...'
 
-ssh root@server <<'EOF'
+ssh -T root@server <<'EOF'
   echo 'Waiting for etcd to start...'
   until systemctl is-active etcd; do
     sleep 1

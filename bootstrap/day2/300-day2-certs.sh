@@ -68,7 +68,7 @@ for i in ${certs[*]}; do
     root@server:~/
 done
 
-ssh root@server <<'EOF'
+ssh -T root@server <<'EOF'
   mv etcd-ca.crt etcd-ca.key \
     etcd-client.crt etcd-client.key \
     etcd-server.crt etcd-server.key \
@@ -194,7 +194,7 @@ ssh root@server "systemctl daemon-reload && systemctl start kube-apiserver"
 
 echo '✅ start apiserver service started again'
 
-ssh root@server <<'EOF'
+ssh -T root@server <<'EOF'
   echo 'Waiting for kube-apiserver to start...'
   until systemctl is-active kube-apiserver; do
     sleep 1
