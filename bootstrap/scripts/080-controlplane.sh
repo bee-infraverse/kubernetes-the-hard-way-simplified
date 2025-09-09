@@ -244,11 +244,10 @@ EOF
 echo 'Testing API server connectivity'
 curl --cacert ~/kubernetes-the-hard-way/certs/ca.crt \
   https://server.local:6443/version
-echo "Status: $?"
 
 echo '✅ Creating control plane components successfully'
 
-if ! -f ~/.kube/config; then
+if [ ! -f ~/.kube/config ]; then
   kubectl config set-cluster kubernetes-the-hard-way \
     --certificate-authority=/home/laborant/kubernetes-the-hard-way/certs/ca.crt \
     --embed-certs=true \

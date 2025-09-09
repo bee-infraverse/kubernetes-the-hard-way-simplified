@@ -108,6 +108,9 @@ ssh -T root@server <<'EOF'
   until systemctl is-active kube-apiserver; do
     sleep 1
   done
+  until [ "$(curl -sk https://127.0.0.1:6443/healthz)" = "ok" ]; do
+    sleep 1
+  done
   echo '✅ kube-apiserver is running after reconfig.'
 EOF
 
