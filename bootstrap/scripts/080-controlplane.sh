@@ -242,7 +242,7 @@ ssh -T root@server <<'EOF'
 EOF
 
 echo 'Testing API server connectivity'
-curl --cacert ~/kubernetes-the-hard-way/certs/ca.crt \
+curl -s --cacert ~/kubernetes-the-hard-way/certs/ca.crt \
   https://server.local:6443/version
 
 echo '✅ Creating control plane components successfully'
