@@ -7,6 +7,32 @@ GITROOT=$(git rev-parse --show-toplevel)
 . "${GITROOT}"/lib/utils
 strictMode
 
+wait_for_ssh() {
+    local host="$1"
+    local port="${2:-22}"
+    local timeout="${3:-30}"
+    local start_time=$(date +%s)
+
+    echo "⏳ Waiting for SSH on $host:$port (timeout: $timeout seconds)..."
+
+    while true; do
+        if nc -z "$host" "$port" 2>/dev/null; then
+            echo "✅ SSH is available on $host:$port"
+            return 0
+        fi
+
+        local now=$(date +%s)
+        local elapsed=$(( now - start_time ))
+
+        if (( elapsed >= timeout )); then
+            echo "❌ Timeout reached ($timeout seconds). SSH not available on $host:$port"
+            return 1
+        fi
+
+        sleep 2
+    done
+}
+
 cd ~/kubernetes-the-hard-way
 
 cat >machines.txt <<EOF
@@ -16,6 +42,8 @@ cat >machines.txt <<EOF
 EOF
 
 while IFS=' ' read -r IP HOST FQDN SUBNET; do
+    wait_for_ssh "$HOST" 22 30 || exit 1
+
     if ssh-keygen -F "$HOST" > /dev/null 2>&1; then
       echo "  -> $HOST already in known_hosts, skipping SSH config."
       continue

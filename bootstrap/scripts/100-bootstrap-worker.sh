@@ -13,13 +13,13 @@ for node in node-0 node-1; do
     swapon --show
     swapoff -a
     mkdir -p \
-    /etc/cni/net.d \
-    /opt/cni/bin \
-    /var/lib/kubelet \
-    /var/lib/kubelet/config.d \
-    /var/lib/kube-proxy \
-    /var/lib/kubernetes \
-    /var/run/kubernetes
+      /etc/cni/net.d \
+      /opt/cni/bin \
+      /var/lib/kubelet \
+      /var/lib/kubelet/config.d \
+      /var/lib/kube-proxy \
+      /var/lib/kubernetes \
+      /var/run/kubernetes
     mv crictl ctr kube-proxy kubelet runc \
     /usr/local/bin/
     mv containerd containerd-shim-runc-v2 containerd-stress /bin/
