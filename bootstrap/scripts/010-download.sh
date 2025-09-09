@@ -44,7 +44,7 @@ while read -r url; do
         echo "[SKIP] $file already exists"
     else
         echo "[GET]  $url"
-        wget -q --show-progress --timestamping --https-only -O "$file" "$url"
+        wget -q --timestamping --https-only -O "$file" "$url"
     fi
 done < "${DOWNLOAD_LIST}"
 
