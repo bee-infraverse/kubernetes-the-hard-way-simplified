@@ -42,12 +42,9 @@ spec:
       initContainers:
       - image: registry.k8s.io/git-sync/git-sync:v4.4.3
         name: gitsync-pull
+        command: [ "/bin/sh", "-c" ]
         args:
-        - --root=/git/root
-        - --link=repo
-        - --depth=1
-        - --period=30s
-        - --ref=main'
+        - '/git-sync --repo="$GIT_REPO" --root=/git/root --link=repo --depth=1 --period=30s --ref=main'
         envFrom:
         - configMapRef:
             name: gitsync
