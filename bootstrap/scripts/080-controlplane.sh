@@ -202,7 +202,7 @@ ssh -T root@server <<'EOF'
   until systemctl is-active kube-apiserver; do
     sleep 1
   done
-  until [ "$(curl -sk https://127.0.0.1:6443/readyz)" = "ok" ]; do
+  until [ "$(curl -sk https://127.0.0.1:6443/healthz)" = "ok" ]; do
     sleep 1
   done
   echo 'kube-apiserver is running.'
@@ -216,7 +216,7 @@ ssh -T root@server <<'EOF'
   until systemctl is-active kube-controller-manager; do
     sleep 1
   done
-  until [ "$(curl -sk https://127.0.0.1:10257/readyz)" = "ok" ]; do
+  until [ "$(curl -sk https://127.0.0.1:10257/healthz)" = "ok" ]; do
     sleep 1
   done
   echo 'kube-controller-manager is running.'
@@ -228,7 +228,7 @@ ssh -T root@server <<'EOF'
   until systemctl is-active kube-scheduler; do
     sleep 1
   done
-  until [ "$(curl -sk https://127.0.0.1:10259/readyz)" = "ok" ]; do
+  until [ "$(curl -sk https://127.0.0.1:10259/healthz)" = "ok" ]; do
     sleep 1
   done
   echo 'kube-scheduler is running.'
