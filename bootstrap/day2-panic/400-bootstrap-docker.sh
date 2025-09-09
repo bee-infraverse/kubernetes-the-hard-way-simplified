@@ -7,12 +7,10 @@ GITROOT=$(git rev-parse --show-toplevel)
 . "${GITROOT}"/lib/utils
 strictMode
 
-cd $HOME
-
 if ! command -v docker &> /dev/null; then
-    curl -fsSL https://get.docker.com -o get-docker.sh
+    curl -fsSL https://get.docker.com -o ~/get-docker.sh
     # review get-docker.sh
-    sudo sh get-docker.sh
+    sudo sh ~/get-docker.sh
     sudo systemctl start docker
     sudo usermod -aG docker ${USER}
     newgrp docker
@@ -21,3 +19,4 @@ if ! command -v docker &> /dev/null; then
 else
     echo "docker available"
 fi
+
