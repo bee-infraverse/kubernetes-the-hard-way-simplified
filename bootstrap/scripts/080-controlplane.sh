@@ -7,6 +7,7 @@ GITROOT=$(git rev-parse --show-toplevel)
 . "${GITROOT}"/lib/utils
 strictMode
 
+
 mkdir -p ~/kubernetes-the-hard-way/units
 cd ~/kubernetes-the-hard-way/units
 
@@ -201,6 +202,9 @@ ssh -T root@server <<'EOF'
   until systemctl is-active kube-apiserver; do
     sleep 1
   done
+  until [ "$(curl -sk https://127.0.0.1:6443/readyz)" = "ok" ]; do
+    sleep 1
+  done
   echo 'kube-apiserver is running.'
   systemctl status kube-apiserver
   kubectl cluster-info \
@@ -212,6 +216,9 @@ ssh -T root@server <<'EOF'
   until systemctl is-active kube-controller-manager; do
     sleep 1
   done
+  until [ "$(curl -sk https://127.0.0.1:10257/readyz)" = "ok" ]; do
+    sleep 1
+  done
   echo 'kube-controller-manager is running.'
   systemctl status kube-controller-manager
 EOF
@@ -219,6 +226,9 @@ EOF
 ssh -T root@server <<'EOF'
   echo 'Waiting for kube-scheduler to start...'
   until systemctl is-active kube-scheduler; do
+    sleep 1
+  done
+  until [ "$(curl -sk https://127.0.0.1:10259/readyz)" = "ok" ]; do
     sleep 1
   done
   echo 'kube-scheduler is running.'
@@ -234,6 +244,7 @@ EOF
 echo 'Testing API server connectivity'
 curl --cacert ~/kubernetes-the-hard-way/certs/ca.crt \
   https://server.local:6443/version
+echo "Status: $?"
 
 echo '✅ Creating control plane components successfully'
 
