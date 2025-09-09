@@ -22,3 +22,5 @@ for script in $(find "$SCRIPT_DIR" -maxdepth 1 -type f -name "*.sh" | sort); do
   echo "✅ Done: $script"
   echo "-----------------------------"
 done
+
+exit 0
