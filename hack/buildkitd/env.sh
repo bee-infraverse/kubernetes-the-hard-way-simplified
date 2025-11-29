@@ -9,7 +9,7 @@ export CONTAINERD_VERSION=${CONTAINERD_VERSION:-2.1.4} # renovate: datasource=gi
 export ETCD_VERSION=${ETCD_VERSION:-v3.6.5} # renovate: datasource=github-releases depName=etcd-io/etcd
 export NERDCTL_VERSION=${NERDCTL_VERSION:-2.1.6} # renovate: datasource=github-releases depName=containerd/nerdctl
 export HELM_VERSION=${HELM_VERSION:-v3.19.0} # renovate: datasource=github-releases depName=helm/helm
-export BUILDCTL_VERSION=${BUILDCTL_VERSION:-v0.24.0} # renovate: datasource=github-releases depName=moby/buildkit
+export BUILDCTL_VERSION=${BUILDCTL_VERSION:-v0.25.1} # renovate: datasource=github-releases depName=moby/buildkit
 export TRIVY_VERSION=${TRIVY_VERSION:-v0.67.2} # renovate: datasource=github-releases depName=aquasecurity/trivy
 export CRANE_VERSION=${CRANE_VERSION:-v0.20.6} # renovate: datasource=github-releases depName=google/go-containerregistry
 export GRANT_VERSION=${GRANT_VERSION:-v0.3.4} # renovate: datasource=github-releases depName=anchore/grant
