@@ -49,7 +49,7 @@ while IFS=' ' read -r IP HOST FQDN SUBNET; do
       continue
     fi
     ssh-keyscan "$HOST" >> ~/.ssh/known_hosts 2>/dev/null
-    ssh laborant@$HOST "sudo sed -i 's/^#*PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config" </dev/null
+    ssh laborant@$HOST "sudo echo 'PermitRootLogin yes' > /etc/ssh/sshd_config.d/lab.conf"
     ssh laborant@$HOST "sudo systemctl restart sshd" 2>/dev/null </dev/null
     {
     echo ""
