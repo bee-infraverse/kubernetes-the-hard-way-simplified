@@ -4,15 +4,15 @@ IMAGE_TAG  := v0.1.0
 
 TARGET_OS   ?= linux
 TARGET_ARCH ?= amd64
-K8S_VERSION ?= v1.34.0
-HELM_VERSION ?= v3.18.6
-K9S_VERSION ?= v0.32.5
+K8S_VERSION ?= v1.34.2
+HELM_VERSION ?= v3.19.1
+K9S_VERSION ?= v0.50.16
 CRICTL_VERSION ?= v1.34.0
-RUNC_VERSION ?= v1.3.1
+RUNC_VERSION ?= v1.3.4
 CNI_PLUGINS =? v1.7.1
-CONTAINERD_VERSION =? 2.1.4
-ETCD_VERSION =? v3.6.4
-NERDCTL_VERSION =? 2.1.4
+CONTAINERD_VERSION =? 2.1.5
+ETCD_VERSION =? v3.6.5
+NERDCTL_VERSION =? 2.1.5
 
 VCS_REF     ?= $(shell git rev-parse --short HEAD 2>/dev/null || echo unknown)
 BUILD_DATE  ?= $(shell date -u +'%Y-%m-%dT%H:%M:%SZ')

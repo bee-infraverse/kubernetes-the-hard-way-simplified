@@ -4,23 +4,23 @@ ARG TARGET_OS=linux
 ARG TARGET_ARCH=amd64
 
 # renovate: datasource=github-tags depName=kubernetes/kubernetes
-ARG K8S_VERSION=v1.34.0
+ARG K8S_VERSION=v1.34.2
 # renovate: datasource=github-releases depName=kubernetes-sigs/cri-tools
 ARG CRICTL_VERSION=v1.34.0
 # renovate: datasource=github-releases depName=opencontainers/runc
-ARG RUNC_VERSION=v1.3.1
+ARG RUNC_VERSION=v1.3.4
 # renovate: datasource=github-releases depName=containernetworking/plugins
 ARG CNI_PLUGINS=v1.7.1
 # renovate: datasource=github-releases depName=containerd/containerd
-ARG CONTAINERD_VERSION=2.1.4
+ARG CONTAINERD_VERSION=2.1.5
 # renovate: datasource=github-releases depName=etcd-io/etcd
-ARG ETCD_VERSION=v3.6.4
+ARG ETCD_VERSION=v3.6.5
 # renovate: datasource=github-releases depName=containerd/nerdctl
-ARG NERDCTL_VERSION=2.1.4
+ARG NERDCTL_VERSION=2.1.5
 # renovate: datasource=github-releases depName=helm/helm
-ARG HELM_VERSION=v3.18.6
+ARG HELM_VERSION=v3.19.2
 # renovate: datasource=github-releases depName=derailed/k9s
-ARG K9S_VERSION=v0.32.5
+ARG K9S_VERSION=v0.50.16
 
 ENV TARGET_OS=${TARGET_OS} \
     TARGET_ARCH=${TARGET_ARCH} \ 
@@ -94,7 +94,7 @@ EOT
 FROM debian:13.slim AS HELM_PACKAGES
 
 # renovate: datasource=github-releases depName=coredns/coredns
-ARG COREDNS_VERSION=1.43.2
+ARG COREDNS_VERSION=1.45.0
 # renovate: datasource=github-releases depName=kubernetes-sigs/metrics-server
 ARG METRICS_SERVER_VERSION=3.13.0 
 
