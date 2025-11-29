@@ -6,7 +6,7 @@ export CRICTL_VERSION=${CRICTL_VERSION:-v1.34.0} # renovate: datasource=github-r
 export RUNC_VERSION=${RUNC_VERSION:-v1.3.1} # renovate: datasource=github-releases depName=opencontainers/runc
 export CNI_PLUGINS=${CNI_PLUGINS:-v1.7.1} # renovate: datasource=github-releases depName=containernetworking/plugins
 export CONTAINERD_VERSION=${CONTAINERD_VERSION:-2.1.4} # renovate: datasource=github-releases depName=containerd/containerd
-export ETCD_VERSION=${ETCD_VERSION:-v3.6.4} # renovate: datasource=github-releases depName=etcd-io/etcd
+export ETCD_VERSION=${ETCD_VERSION:-v3.6.5} # renovate: datasource=github-releases depName=etcd-io/etcd
 export NERDCTL_VERSION=${NERDCTL_VERSION:-2.1.4} # renovate: datasource=github-releases depName=containerd/nerdctl
 export HELM_VERSION=${HELM_VERSION:-v3.19.0} # renovate: datasource=github-releases depName=helm/helm
 export BUILDCTL_VERSION=${BUILDCTL_VERSION:-v0.24.0} # renovate: datasource=github-releases depName=moby/buildkit
