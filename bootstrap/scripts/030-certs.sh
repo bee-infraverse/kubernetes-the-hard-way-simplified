@@ -13,6 +13,9 @@ cd ~/kubernetes-the-hard-way
 
 if [ ! -f $HOME/kubernetes-the-hard-way/ca.conf ]; then
   echo 'Generating CA configuration file...'
+  while IFS=' ' read -r IP HOST FQDN SUBNET; do
+    export $(echo -n NODE_IP_$HOST| sed 's/-/_/g')=$IP
+  done < machines.txt
   envsubst < ${GITROOT}/bootstrap/ca-template.conf > $HOME/kubernetes-the-hard-way/ca.conf
 else
   echo 'CA configuration file already exists, skipping generation.'
