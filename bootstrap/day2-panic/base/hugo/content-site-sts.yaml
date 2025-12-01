@@ -15,7 +15,7 @@ spec:
       labels: *labels
     spec:
       containers:
-      - image: docker.io/library/nginx:1.29.1
+      - image: docker.io/library/nginx:1.29.2
         name: nginx
         resources:
           requests:
@@ -40,7 +40,7 @@ spec:
           successThreshold: 1
           failureThreshold: 3
       initContainers:
-      - image: registry.k8s.io/git-sync/git-sync:v4.4.3
+      - image: registry.k8s.io/git-sync/git-sync:v4.5.0
         name: gitsync-pull
         command: [ "/bin/sh", "-c" ]
         args:
@@ -68,7 +68,7 @@ spec:
         - name: site-data
           mountPath: /output
       - name: hugo
-        image: docker.io/hugomods/hugo:non-root-0.148.2
+        image: docker.io/hugomods/hugo:non-root-0.152.2
         command: [ "hugo", "server", "--bind", "0.0.0.0", "--baseURL", "/", "--source", "/git/repo", "--destination", "/output" ]
         securityContext:
           runAsUser: 65533
