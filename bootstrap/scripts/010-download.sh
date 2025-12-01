@@ -131,7 +131,7 @@ else
   echo 'krew is already installed, skipping installation.'
 fi
 
-if ! -f "/usr/local/opt/kube-ps1/share/kube-ps1.sh" ; then
+if [ ! -f "/usr/local/opt/kube-ps1/share/kube-ps1.sh" ] ; then
   curl -s https://raw.githubusercontent.com/jonmosco/kube-ps1/master/kube-ps1.sh >./kube-ps1.sh
   
   sudo mkdir -p /usr/local/opt/kube-ps1/share

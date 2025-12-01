@@ -49,9 +49,9 @@ while IFS=' ' read -r IP HOST FQDN SUBNET; do
       continue
     fi
     ssh-keyscan "$HOST" >> ~/.ssh/known_hosts 2>/dev/null
-    ssh laborant@$HOST "sudo echo 'PermitRootLogin yes' > /etc/ssh/sshd_config.d/lab.conf"
+    ssh laborant@$HOST "sudo /bin/sh -c 'echo "PermitRootLogin yes" > /etc/ssh/ssh_config.d/lab.conf'"
     ssh laborant@$HOST "sudo systemctl restart sshd" 2>/dev/null </dev/null
-    {
+    {"
     echo ""
     grep flexbox ~/.ssh/authorized_keys
     } | ssh laborant@$HOST "sudo tee -a /root/.ssh/authorized_keys >/dev/null"
