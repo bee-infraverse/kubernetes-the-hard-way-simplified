@@ -42,14 +42,17 @@ cat >machines.txt <<EOF
 EOF
 
 while IFS=' ' read -r IP HOST FQDN SUBNET; do
+    echo "  -> check $HOST availability vis ssh"
     wait_for_ssh "$HOST" 22 30 || exit 1
 
+    echo "  -> check $HOST keyscan"
     if ssh-keygen -F "$HOST" > /dev/null 2>&1; then
       echo "  -> $HOST already in known_hosts, skipping SSH config."
       continue
     fi
+    echo "  -> setup root access to host $HOST "
     ssh-keyscan "$HOST" >> ~/.ssh/known_hosts 2>/dev/null
-    ssh laborant@$HOST "sudo /bin/sh -c 'echo \"PermitRootLogin yes\" > /etc/ssh/ssh_config.d/lab.conf'"
+    ssh laborant@$HOST "sudo /bin/sh -c 'echo \"PermitRootLogin yes\" > /etc/ssh/sshd_config.d/lab.conf'"
     ssh laborant@$HOST "sudo systemctl restart sshd" 2>/dev/null </dev/null
     {
     echo ""
