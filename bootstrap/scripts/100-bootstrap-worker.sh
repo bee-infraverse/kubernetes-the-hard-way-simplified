@@ -26,7 +26,9 @@ for node in node-0 node-1; do
     mv cni-plugins/* /opt/cni/bin/
     mv 10-bridge.conf 99-loopback.conf /etc/cni/net.d/
     modprobe br-netfilter
+    modprobe overlay
     echo "br-netfilter" >> /etc/modules-load.d/modules.conf
+    echo "overlay" >> /etc/modules-load.d/modules.conf
     echo "net.bridge.bridge-nf-call-iptables = 1" \
     >> /etc/sysctl.d/kubernetes.conf
     echo "net.bridge.bridge-nf-call-ip6tables = 1" \
