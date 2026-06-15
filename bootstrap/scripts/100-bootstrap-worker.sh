@@ -33,6 +33,8 @@ for node in node-0 node-1; do
     >> /etc/sysctl.d/kubernetes.conf
     echo "net.bridge.bridge-nf-call-ip6tables = 1" \
     >> /etc/sysctl.d/kubernetes.conf
+    echo "net.ipv4.ip_forward = 1" \
+    >> /etc/sysctl.d/kubernetes.conf
     sysctl -p /etc/sysctl.d/kubernetes.conf
     echo "Creating containerd and kubelet configuration files at ${node}"
     mkdir -p /etc/containerd/
